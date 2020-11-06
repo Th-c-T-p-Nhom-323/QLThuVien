@@ -42,7 +42,23 @@ namespace QuanLyThuVien
         string masach;
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            if (dem == 0)
+            {
+                masach = txtMASACH.Text;
+                dem = 1;
+                button1.Enabled = false;
+                button3.Enabled = false;
+            }
+            else
+            {
+                string strUpdate = "Update tblSach set MASACH='" + txtMASACH.Text + "',TENSACH='" + txtTENSACH.Text + "',MATG='" + cboMATG.Text + "',MANXB='" + cboMANXB.Text + "',MaLv='" + cboMALv.Text + "',NAMXB='" + txtNAMXB.Text + "',SOTRANG='" + txtSOTRANG.Text + "',SOLUONG='" + txtSOLUONG.Text + "',NGAYNHAP='" + maskedTextBox1.Text + "',GHICHU='" + richTextBox1.Text + "',SOSACHHONG='" + txtsachhong.Text + "' where MASACH='" + masach + "'";
+                cls.ThucThiSQLTheoPKN(strUpdate);
+                cls.LoadData2DataGridView(dataGridView1, "select *from tblSach");
+                button1.Enabled = true;
+                button3.Enabled = true;
+                dem = 0;
+                MessageBox.Show("Sửa thành công");
+            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -66,42 +82,51 @@ namespace QuanLyThuVien
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
+            if (MessageBox.Show("Bạn có muốn xóa không?(Y/N)", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                string strDelete = "Delete from tblSach where MASACH='" + txtMASACH.Text + "'";
+                cls.ThucThiSQLTheoKetNoi(strDelete);
+                cls.LoadData2DataGridView(dataGridView1, "select *from tblSach");
+                MessageBox.Show("Xóa thành công !!!");
+            }
         }
 
         private void txtsachhong_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+            if (e.KeyChar >= '0' && e.KeyChar <= '9')
+                e.Handled = false;
+            else
+                e.Handled = true;
         }
 
         private void cbotenLV_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            cboMALv.SelectedIndex = cbotenLV.SelectedIndex;
         }
 
         private void cboMALv_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            cbotenLV.SelectedIndex = cboMALv.SelectedIndex;
         }
 
         private void cbotenTG_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            cboMATG.SelectedIndex = cbotenTG.SelectedIndex;
         }
 
         private void cboMATG_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            cbotenTG.SelectedIndex = cboMATG.SelectedIndex;
         }
 
         private void cbotenNXB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            cboMANXB.SelectedIndex = cbotenNXB.SelectedIndex;
         }
 
         private void cboMANXB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            cbotenNXB.SelectedIndex = cboMANXB.SelectedIndex;
         }
 
     }
